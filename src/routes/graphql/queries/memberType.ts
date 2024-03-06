@@ -1,5 +1,5 @@
 import { GraphQLNonNull } from 'graphql';
-import { memberTypeType } from '../types/memberType.js';
+import { memberTypeType } from '../types/member.js';
 import { memberTypeIdType } from '../types/memberTypeId.js';
 import { Context } from '../context.js';
 

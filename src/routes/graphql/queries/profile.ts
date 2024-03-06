@@ -1,7 +1,7 @@
 import { GraphQLNonNull } from 'graphql';
 import { UUIDType } from '../types/uuid.js';
 import { Context } from '../context.js';
-import { profileType } from '../types/profileType.js';
+import { profileType } from '../types/profile.js';
 
 export const profileQuery = {
   type: profileType,

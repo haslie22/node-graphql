@@ -1,5 +1,5 @@
 import { GraphQLList, GraphQLNonNull } from 'graphql';
-import { memberTypeType } from '../types/memberType.js';
+import { memberTypeType } from '../types/member.js';
 import { Context } from '../context.js';
 
 export const memberTypesQuery = {
