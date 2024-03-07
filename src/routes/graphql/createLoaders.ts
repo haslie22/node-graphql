@@ -5,11 +5,12 @@ import { profileByIdLoader } from './loaders/profileById.js';
 import { profileByUserIdLoader } from './loaders/profileByUserId.js';
 import { subscriptionByIdLoader } from './loaders/subscriptionById.js';
 import { userByIdLoader } from './loaders/userById.js';
+import { postsByAuthorIdLoader } from './loaders/postsByAuthorId.js';
 
 export const createLoaders = (prisma: PrismaClient) => {
   return {
     memberTypeById: memberTypeByIdLoader(prisma),
-    postsByAuthorId: postByIdLoader(prisma),
+    postsByAuthorId: postsByAuthorIdLoader(prisma),
     postById: postByIdLoader(prisma),
     profileById: profileByIdLoader(prisma),
     profileByUserId: profileByUserIdLoader(prisma),

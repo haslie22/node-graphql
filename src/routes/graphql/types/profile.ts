@@ -22,7 +22,7 @@ export const profileType = new GraphQLObjectType({
         _args,
         ctx: Context,
       ) => {
-        return ctx.prisma.memberType.findUnique({ where: { id: memberTypeId } });
+        return ctx.memberTypeById.load(memberTypeId);
       },
     },
   },

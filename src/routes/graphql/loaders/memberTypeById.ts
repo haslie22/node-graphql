@@ -6,8 +6,7 @@ export const memberTypeByIdLoader = (prisma: PrismaClient) => {
     const memberTypes = await prisma.memberType.findMany({
       where: { id: { in: [...ids] } },
     });
-    const memberType = ids.map((id) => memberTypes.find((type) => id === type.id));
 
-    return memberType;
+    return ids.map((id) => memberTypes.find((type) => id === type.id));
   });
 };

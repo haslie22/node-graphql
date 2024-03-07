@@ -5,6 +5,11 @@ import { Context } from '../context.js';
 export const memberTypesQuery = {
   type: new GraphQLNonNull(new GraphQLList(memberTypeType)),
   async resolve(_root, _args, ctx: Context) {
-    return ctx.prisma.memberType.findMany();
+    const memberTypes = await ctx.prisma.memberType.findMany();
+    memberTypes.forEach((memberType) =>
+      ctx.memberTypeById.prime(memberType.id, memberType),
+    );
+
+    return memberTypes;
   },
 };

@@ -6,8 +6,7 @@ export const profileByUserIdLoader = (prisma: PrismaClient) => {
     const profiles = await prisma.profile.findMany({
       where: { userId: { in: [...ids] } },
     });
-    const profile = ids.map((id) => profiles.find((profile) => id === profile.userId));
 
-    return profile;
+    return ids.map((id) => profiles.find((profile) => id === profile.userId));
   });
 };

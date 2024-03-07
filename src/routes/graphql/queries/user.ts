@@ -10,6 +10,6 @@ export const userQuery = {
     id: { type: new GraphQLNonNull(UUIDType) },
   },
   async resolve(_root, { id }: { id: string }, ctx: Context) {
-    return ctx.prisma.user.findUnique({ where: { id } });
+    return ctx.userById.load(id);
   },
 };

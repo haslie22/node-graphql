@@ -1,7 +1,7 @@
 import { Post, PrismaClient, User } from '@prisma/client';
 import DataLoader from 'dataloader';
 
-export const postByAuthorIdLoader = (prisma: PrismaClient) => {
+export const postsByAuthorIdLoader = (prisma: PrismaClient) => {
   return new DataLoader(async (ids: ReadonlyArray<User['id']>) => {
     const posts = await prisma.post.findMany({
       where: { authorId: { in: [...ids] } },
@@ -16,8 +16,6 @@ export const postByAuthorIdLoader = (prisma: PrismaClient) => {
       {} as Record<User['id'], Post[]>,
     );
 
-    const post = ids.map((id) => groupedPosts[id] || []);
-
-    return post;
+    return ids.map((id) => groupedPosts[id] || []);
   });
 };

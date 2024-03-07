@@ -23,13 +23,11 @@ const plugin: FastifyPluginAsyncTypebox = async (fastify) => {
         return { data: null, errors: depthErrors };
       }
 
-      const loaders = createLoaders(prisma);
-
       return graphql({
         schema: gqlSchema,
         source: query,
         variableValues: variables,
-        contextValue: { prisma, loaders },
+        contextValue: { prisma, ...createLoaders(prisma) },
       });
     },
   });

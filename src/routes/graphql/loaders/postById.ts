@@ -6,8 +6,7 @@ export const postByIdLoader = (prisma: PrismaClient) => {
     const posts = await prisma.post.findMany({
       where: { id: { in: [...ids] } },
     });
-    const post = ids.map((id) => posts.find((post) => id === post.id));
 
-    return post;
+    return ids.map((id) => posts.find((post) => id === post.id));
   });
 };

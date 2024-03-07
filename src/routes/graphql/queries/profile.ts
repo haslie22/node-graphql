@@ -9,6 +9,6 @@ export const profileQuery = {
     id: { type: new GraphQLNonNull(UUIDType) },
   },
   async resolve(_root, { id }: { id: string }, ctx: Context) {
-    return ctx.prisma.profile.findUnique({ where: { id } });
+    return ctx.profileById.load(id);
   },
 };

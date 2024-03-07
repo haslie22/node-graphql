@@ -9,6 +9,6 @@ export const memberTypeQuery = {
     id: { type: new GraphQLNonNull(memberTypeIdType) },
   },
   async resolve(_root, { id }: { id: string }, ctx: Context) {
-    return ctx.prisma.memberType.findUnique({ where: { id } });
+    return ctx.memberTypeById.load(id);
   },
 };

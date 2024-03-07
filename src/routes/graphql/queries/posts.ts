@@ -5,6 +5,11 @@ import { Context } from '../context.js';
 export const postsQuery = {
   type: new GraphQLNonNull(new GraphQLList(postType)),
   async resolve(_root, _args, ctx: Context) {
-    return ctx.prisma.post.findMany();
+    const posts = await ctx.prisma.post.findMany();
+    posts.forEach((post) => {
+      ctx.postById.prime(post.id, post);
+    });
+
+    return posts;
   },
 };
