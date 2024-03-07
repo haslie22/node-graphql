@@ -10,7 +10,13 @@ import { profileType } from './profile.js';
 import { Context } from '../context.js';
 import { postType } from './post.js';
 
-export const userType = new GraphQLObjectType({
+interface userSubsInfo {
+  id: string;
+  subscribedToUser: { subscriberId: string }[];
+  userSubscribedTo: { authorId: string }[];
+}
+
+export const userType = new GraphQLObjectType<userSubsInfo, Context>({
   name: 'UserType',
   fields: () => ({
     id: {
@@ -24,76 +30,26 @@ export const userType = new GraphQLObjectType({
     },
     profile: {
       type: profileType,
-      resolve: async (
-        {
-          id,
-        }: {
-          id: string;
-          subscribedToUser: { subscriberId: string }[];
-          userSubscribedTo: { authorId: string }[];
-        },
-        _args,
-        ctx: Context,
-      ) => {
+      resolve: async ({ id }, _args, ctx) => {
         return ctx.profileByUserId.load(id);
       },
     },
     posts: {
       type: new GraphQLList(postType),
-      resolve: async (
-        {
-          id,
-        }: {
-          id: string;
-          subscribedToUser: { subscriberId: string }[];
-          userSubscribedTo: { authorId: string }[];
-        },
-        _args,
-        ctx: Context,
-      ) => {
+      resolve: async ({ id }, _args, ctx) => {
         return ctx.postsByAuthorId.load(id);
       },
     },
     userSubscribedTo: {
       type: new GraphQLList(userType),
-      resolve: async (
-        {
-          userSubscribedTo,
-        }: {
-          id: string;
-          subscribedToUser: { subscriberId: string }[];
-          userSubscribedTo: { authorId: string }[];
-        },
-        _args,
-        ctx: Context,
-      ) => {
+      resolve: async ({ userSubscribedTo }, _args, ctx) => {
         return userSubscribedTo.map((sub) => ctx.userById.load(sub.authorId));
-        //   return ctx.prisma.user.findMany({
-        //     where: {
-        //       subscribedToUser: { some: { subscriberId: id } },
-        //     },
-        //   });
       },
     },
     subscribedToUser: {
       type: new GraphQLList(userType),
-      resolve: async (
-        {
-          subscribedToUser,
-        }: {
-          id: string;
-          subscribedToUser: { subscriberId: string }[];
-          userSubscribedTo: { authorId: string }[];
-        },
-        _args,
-        ctx: Context,
-      ) => {
+      resolve: async ({ subscribedToUser }, _args, ctx) => {
         return subscribedToUser.map((sub) => ctx.userById.load(sub.subscriberId));
-        //   return ctx.prisma.user.findMany({
-        //     where: {
-        //       userSubscribedTo: { some: { authorId: id } },
-        //     },
-        //   });
       },
     },
   }),
